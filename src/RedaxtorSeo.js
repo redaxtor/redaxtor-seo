@@ -31,6 +31,14 @@ export default class RedaxtorSeo extends Component {
         }
     }
 
+    /**
+     * That is a common public method that should activate component editor if it presents
+     */
+    activateEditor() {
+        if(this.props.editorActive && !this.state.sourceEditorActive) {
+            this.setState({sourceEditorActive: true});
+        }
+    }
 
     onClick(e) {
         e.preventDefault();
@@ -54,7 +62,12 @@ export default class RedaxtorSeo extends Component {
             [KEYWORDS_FIELD]: nextProps.data[KEYWORDS_FIELD] || "",
             [DESCRIPTION_FIELD]: nextProps.data[DESCRIPTION_FIELD] || "",
             [HEADER_HTML_FIELD]: nextProps.data[HEADER_HTML_FIELD] || "",
-        })
+        });
+
+        if(nextProps.manualActivation) {
+            this.props.onManualActivation(this.props.id);
+            this.activateEditor();
+        };
     }
 
     shouldComponentUpdate(nextProps, nextState) {
