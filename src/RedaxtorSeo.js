@@ -36,8 +36,15 @@ export default class RedaxtorSeo extends Component {
      */
     activateEditor() {
         if(this.props.editorActive && !this.state.sourceEditorActive) {
-            this.setState({sourceEditorActive: true});
-            this.props.onEditorActive && this.props.onEditorActive(this.props.id, true);
+            this.setEditorActive(true);
+        }
+    }
+
+
+    setEditorActive(active) {
+        if(active != this.state.sourceEditorActive){
+            this.setState({sourceEditorActive: active});
+            this.props.onEditorActive && this.props.onEditorActive(this.props.id, active);
         }
     }
 
@@ -106,13 +113,11 @@ export default class RedaxtorSeo extends Component {
                 }
             });
         this.props.savePiece && this.props.savePiece(this.props.id);
-        this.setState({sourceEditorActive: false});
-        this.props.onEditorActive && this.props.onEditorActive(this.props.id, false);
+       this.setEditorActive(false);
     }
 
     onClose() {
-        this.props.node ? this.setState({sourceEditorActive: false}) : (this.props.onClose && this.props.onClose())
-        this.props.onEditorActive && this.props.onEditorActive(this.props.id, false);
+        this.props.node ?  this.setEditorActive(false) : (this.props.onClose && this.props.onClose());
     }
 
     createEditor() {
