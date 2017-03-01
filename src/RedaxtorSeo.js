@@ -29,6 +29,8 @@ export default class RedaxtorSeo extends Component {
             [HEADER_HTML_FIELD]: this.props.data[HEADER_HTML_FIELD] || "",
             sourceEditorActive: false
         }
+
+        this.handleKeyUpBinded = this.handleKeyUp.bind(this);
     }
 
     /**
@@ -117,7 +119,10 @@ export default class RedaxtorSeo extends Component {
     }
 
     onClose() {
-        this.props.node ?  this.setEditorActive(false) : (this.props.onClose && this.props.onClose());
+        setTimeout(() => {
+            this.overlay.removeEventListener('keyup', this.handleKeyUpBinded);
+            this.props.node ? this.setEditorActive(false) : (this.props.onClose && this.props.onClose());
+        }, 200);
     }
 
     createEditor() {
@@ -148,6 +153,20 @@ export default class RedaxtorSeo extends Component {
         }
     }
 
+    handleKeyUp(event){
+        switch (event.keyCode) {
+            case 27: //is escape
+                event.stopPropagation();
+                this.onClose();
+                break;
+        }
+    }
+
+    afterShowModal(){
+        this.overlay.tabIndex = "0"; //set for activate key events
+        this.overlay.addEventListener('keyup', this.handleKeyUpBinded); //for use native pereventdefault and native event system
+        this.overlay.focus();
+    }
 
     render() {
         let modalDiv = null;
@@ -171,6 +190,7 @@ export default class RedaxtorSeo extends Component {
             modalDiv =
                 <Modal contentLabel="Edit SEO Information" isOpen={true} overlayClassName="r_modal-overlay r_visible"
                        className="r_modal-content"
+                       onAfterOpen={this.afterShowModal.bind(this)} ref={(overlay) => this.overlay = (overlay && overlay.node.children[0])}
                        onRequestClose={this.onClose.bind(this)}>
                     <div className="r_row">
                         <div className="r_col">
