@@ -40,6 +40,12 @@ export default class RedaxtorSeo extends Component {
         }
     }
 
+    deactivateEditor() {
+        if(this.props.editorActive && this.state.sourceEditorActive) {
+            this.setEditorActive(false);
+        }
+    }
+
 
     setEditorActive(active) {
         if(active != this.state.sourceEditorActive){
@@ -75,7 +81,12 @@ export default class RedaxtorSeo extends Component {
         if(nextProps.manualActivation) {
             this.props.onManualActivation(this.props.id);
             this.activateEditor();
-        };
+        }
+
+        if(nextProps.manualDeactivation) {
+            this.props.onManualDeactivation(this.props.id);
+            this.deactivateEditor();
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -117,7 +128,7 @@ export default class RedaxtorSeo extends Component {
     }
 
     onClose() {
-        this.props.node ?  this.setEditorActive(false) : (this.props.onClose && this.props.onClose());
+       this.props.node ? this.setEditorActive(false) : (this.props.onClose && this.props.onClose());
     }
 
     createEditor() {
@@ -148,6 +159,15 @@ export default class RedaxtorSeo extends Component {
         }
     }
 
+    /**
+     * handle closed event from the modal component
+     * @param event
+     */
+    handleCloseModal(event){
+        if(event.type == 'keydown' && event.keyCode === 27) {
+            this.modalNode.parentNode.dispatchEvent(new KeyboardEvent('keyDown', {key: 'Escape'}));
+        }
+    }
 
     render() {
         let modalDiv = null;
@@ -170,8 +190,8 @@ export default class RedaxtorSeo extends Component {
 
             modalDiv =
                 <Modal contentLabel="Edit SEO Information" isOpen={true} overlayClassName="r_modal-overlay r_visible"
-                       className="r_modal-content"
-                       onRequestClose={this.onClose.bind(this)}>
+                       className="r_modal-content" ref={(modal) => this.modalNode = (modal && modal.node)}
+                       onRequestClose={this.handleCloseModal.bind(this)}>
                     <div className="r_row">
                         <div className="r_col">
                             <div className="item-form">
