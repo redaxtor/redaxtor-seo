@@ -29,8 +29,6 @@ export default class RedaxtorSeo extends Component {
             [HEADER_HTML_FIELD]: this.props.data[HEADER_HTML_FIELD] || "",
             sourceEditorActive: false
         }
-
-        this.handleKeyUpBinded = this.handleKeyUp.bind(this);
     }
 
     /**
@@ -39,6 +37,12 @@ export default class RedaxtorSeo extends Component {
     activateEditor() {
         if(this.props.editorActive && !this.state.sourceEditorActive) {
             this.setEditorActive(true);
+        }
+    }
+
+    deactivateEditor() {
+        if(this.props.editorActive && this.state.sourceEditorActive) {
+            this.setEditorActive(false);
         }
     }
 
@@ -77,7 +81,12 @@ export default class RedaxtorSeo extends Component {
         if(nextProps.manualActivation) {
             this.props.onManualActivation(this.props.id);
             this.activateEditor();
-        };
+        }
+
+        if(nextProps.manualDeactivation) {
+            this.props.onManualDeactivation(this.props.id);
+            this.deactivateEditor();
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -119,10 +128,7 @@ export default class RedaxtorSeo extends Component {
     }
 
     onClose() {
-        setTimeout(() => {
-            this.overlay.removeEventListener('keyup', this.handleKeyUpBinded);
-            this.props.node ? this.setEditorActive(false) : (this.props.onClose && this.props.onClose());
-        }, 200);
+       this.props.node ? this.setEditorActive(false) : (this.props.onClose && this.props.onClose());
     }
 
     createEditor() {
@@ -153,19 +159,14 @@ export default class RedaxtorSeo extends Component {
         }
     }
 
-    handleKeyUp(event){
-        switch (event.keyCode) {
-            case 27: //is escape
-                event.stopPropagation();
-                this.onClose();
-                break;
+    /**
+     * handle closed event from the modal component
+     * @param event
+     */
+    handleCloseModal(event){
+        if(event.type == 'keydown' && event.keyCode === 27) {
+            this.modalNode.parentNode.dispatchEvent(new KeyboardEvent('keyDown', {key: 'Escape'}));
         }
-    }
-
-    afterShowModal(){
-        this.overlay.tabIndex = "0"; //set for activate key events
-        this.overlay.addEventListener('keyup', this.handleKeyUpBinded); //for use native pereventdefault and native event system
-        this.overlay.focus();
     }
 
     render() {
@@ -189,9 +190,8 @@ export default class RedaxtorSeo extends Component {
 
             modalDiv =
                 <Modal contentLabel="Edit SEO Information" isOpen={true} overlayClassName="r_modal-overlay r_visible"
-                       className="r_modal-content"
-                       onAfterOpen={this.afterShowModal.bind(this)} ref={(overlay) => this.overlay = (overlay && overlay.node.children[0])}
-                       onRequestClose={this.onClose.bind(this)}>
+                       className="r_modal-content" ref={(modal) => this.modalNode = (modal && modal.node)}
+                       onRequestClose={this.handleCloseModal.bind(this)}>
                     <div className="r_row">
                         <div className="r_col">
                             <div className="item-form">
