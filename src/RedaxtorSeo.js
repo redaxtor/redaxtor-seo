@@ -238,4 +238,4 @@ export default class RedaxtorSeo extends Component {
  * @type {string}
  */
 RedaxtorSeo.__renderType = "BEFORE";
-RedaxtorSeo.__name = "SEO meta";
+RedaxtorSeo.__editLabel = "Edit SEO meta";
