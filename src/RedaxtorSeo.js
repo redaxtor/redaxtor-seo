@@ -192,27 +192,30 @@ export default class RedaxtorSeo extends Component {
                 <Modal contentLabel="Edit SEO Information" isOpen={true} overlayClassName="r_modal-overlay r_visible"
                        className="r_modal-content" ref={(modal) => this.modalNode = (modal && modal.node)}
                        onRequestClose={this.handleCloseModal.bind(this)}>
+                    <div className="r_modal-title">
+                        <div className="r_modal-close" onClick={this.onClose.bind(this)}>
+                            <i className="rx_icon rx_icon-close">&nbsp;</i>
+                        </div>
+                        <span>SEO</span>
+                    </div>
                     <div className="r_row">
                         <div className="r_col">
                             <div className="item-form">
-                                <div><label htmlFor={`r_${id}_title`}>Title</label><span
-                                    style={floatRight}>{title.length}</span></div>
-                                <input id={`r_${id}_title`} placeholder="Title meta" type="text" defaultValue={title}
+                                <input id={`r_${id}_title`} placeholder="Title" type="text" defaultValue={title}
                                        onChange={(event)=>this.updateValue(TITLE_FIELD, event.target.value)}/>
+                                <span className="number-badge">{title.length}</span>
                             </div>
                             <div className="item-form">
-                                <div><label htmlFor={`r_${id}_keywords`}>Keywords</label><span
-                                    style={floatRight}>{keywords.length}</span></div>
-                                <input id={`r_${id}_keywords`} placeholder="Keywords list" type="text"
+                                <input id={`r_${id}_keywords`} placeholder="Keywords" type="text"
                                        defaultValue={keywords}
                                        onChange={(event)=>this.updateValue(KEYWORDS_FIELD, event.target.value)}/>
+                                <span className="number-badge">{keywords.length}</span>
                             </div>
                             <div className="item-form">
-                                <div><label htmlFor={`r_${id}_description`}>Description</label><span
-                                    style={floatRight}>{description.length}</span></div>
                                 <textarea id={`r_${id}_description`} placeholder="Description" type="text"
-                                          defaultValue={description}
+                                          defaultValue={description} rows="3"
                                           onChange={(event)=>this.updateValue(DESCRIPTION_FIELD, event.target.value)}/>
+                                <span className="number-badge">{description.length}</span>
                             </div>
                         </div>
                         <div className="r_col">
@@ -220,7 +223,7 @@ export default class RedaxtorSeo extends Component {
                             <Codemirror
                                 value={html}
                                 onChange={this.updateCode.bind(this)} options={options}/>
-                            <div>This HTML will be inserted in page headers. Use for custom meta tags.</div>
+                            <div className="codemirror-hint">This HTML will be inserted in page headers. Use for custom meta tags.</div>
                         </div>
                     </div>
 
@@ -235,7 +238,7 @@ export default class RedaxtorSeo extends Component {
                         </div>
                     </div>
 
-                    <div className="actions-bar">
+                    <div className="r_modal-actions-bar bar-right">
                         <div className="button button-cancel" onClick={this.onClose.bind(this)}>Cancel</div>
                         <div className="button button-save"
                              onClick={()=>this.onSave()}>
