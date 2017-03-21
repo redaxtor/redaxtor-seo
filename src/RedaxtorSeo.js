@@ -4,6 +4,7 @@ import {html as html_beautify} from 'js-beautify'
 import Modal from 'react-modal'
 require('codemirror/mode/htmlmixed/htmlmixed');
 var shallowEqual = require('fbjs/lib/shallowEqual');
+import i18n from './i18n';
 
 const TITLE_FIELD = "title";
 const KEYWORDS_FIELD = "keywords";
@@ -190,45 +191,45 @@ export default class RedaxtorSeo extends Component {
 
             modalDiv =
                 <Modal contentLabel="Edit SEO Information" isOpen={true} overlayClassName="r_modal-overlay r_visible"
-                       className="r_modal-content" ref={(modal) => this.modalNode = (modal && modal.node)}
+                       className="r_modal-content r_modal-content-seo" ref={(modal) => this.modalNode = (modal && modal.node)}
                        onRequestClose={this.handleCloseModal.bind(this)}>
                     <div className="r_modal-title">
                         <div className="r_modal-close" onClick={this.onClose.bind(this)}>
                             <i className="rx_icon rx_icon-close">&nbsp;</i>
                         </div>
-                        <span>SEO</span>
+                        <span>{i18n.header}</span>
                     </div>
                     <div className="r_row">
                         <div className="r_col">
                             <div className="item-form">
-                                <input id={`r_${id}_title`} placeholder="Title" type="text" defaultValue={title}
+                                <input id={`r_${id}_title`} placeholder={i18n.title} type="text" defaultValue={title}
                                        onChange={(event)=>this.updateValue(TITLE_FIELD, event.target.value)}/>
                                 <span className="number-badge">{title.length}</span>
                             </div>
                             <div className="item-form">
-                                <input id={`r_${id}_keywords`} placeholder="Keywords" type="text"
-                                       defaultValue={keywords}
-                                       onChange={(event)=>this.updateValue(KEYWORDS_FIELD, event.target.value)}/>
-                                <span className="number-badge">{keywords.length}</span>
-                            </div>
-                            <div className="item-form">
-                                <textarea id={`r_${id}_description`} placeholder="Description" type="text"
-                                          defaultValue={description} rows="3"
+                                <textarea id={`r_${id}_description`} placeholder={i18n.description} type="text"
+                                          defaultValue={description} rows="5"
                                           onChange={(event)=>this.updateValue(DESCRIPTION_FIELD, event.target.value)}/>
                                 <span className="number-badge">{description.length}</span>
                             </div>
+                            <div className="item-form">
+                                <input id={`r_${id}_keywords`} placeholder={i18n.keywords} type="text"
+                                       defaultValue={keywords}
+                                       onChange={(event)=>this.updateValue(KEYWORDS_FIELD, event.target.value)}/>
+                                {false && <span className="number-badge">{keywords.length}</span>}
+                            </div>
                         </div>
                         <div className="r_col">
-                            <label htmlFor={`r_${id}_description`}>Page Header</label>
+                            {false && <label htmlFor={`r_${id}_description`}>${i18n.meta}</label>}
                             <Codemirror
                                 value={html}
                                 onChange={this.updateCode.bind(this)} options={options}/>
-                            <div className="codemirror-hint">This HTML will be inserted in page headers. Use for custom meta tags.</div>
+                            <div className="codemirror-hint">{i18n.metaDescription}</div>
                         </div>
                     </div>
 
                     <div>
-                        <label>Google Search Engine Preview</label>
+                        <label>{i18n.google}</label>
                         <div className="google-preview-wrapper">
                             <div className="google-preview">
                                 <div className="google-header">{title}</div>
@@ -238,11 +239,11 @@ export default class RedaxtorSeo extends Component {
                         </div>
                     </div>
 
-                    <div className="r_modal-actions-bar bar-right">
-                        <div className="button button-cancel" onClick={this.onClose.bind(this)}>Cancel</div>
+                    <div className="r_modal-actions-bar">
+                        {false && <div className="button button-cancel" onClick={this.onClose.bind(this)}>Cancel</div> }
                         <div className="button button-save"
                              onClick={()=>this.onSave()}>
-                            Save
+                            {i18n.saveButton}
                         </div>
                     </div>
                 </Modal>;
@@ -261,5 +262,5 @@ export default class RedaxtorSeo extends Component {
  * @type {string}
  */
 RedaxtorSeo.__renderType = "BEFORE";
-RedaxtorSeo.__editLabel = "Edit SEO meta";
-RedaxtorSeo.__name = "SEO meta";
+RedaxtorSeo.__editLabel = i18n.__floatingEditLabel;
+RedaxtorSeo.__name = i18n.__checkboxName;
