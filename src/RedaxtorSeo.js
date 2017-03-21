@@ -219,8 +219,8 @@ export default class RedaxtorSeo extends Component {
                                           defaultValue={description} rows="5"
                                           onChange={(event)=>this.updateValue(DESCRIPTION_FIELD, event.target.value)}/>
                                 <span
-                                    className={"number-badge " + (descriptionIsLong ? "warning" : "ok")}>{description.length}</span>
-                                <div className="description">Keep less than 156 characters</div>
+                                    className={"number-badge " + ((description.length>160) ? "warning" : "ok")}>{description.length}</span>
+                                <div className="description">Keep less than 160 characters</div>
                             </div>
 
                             <div className="item-form">
