@@ -210,7 +210,7 @@ export default class RedaxtorSeo extends Component {
                             <div className="item-form">
                                 <input id={`r_${id}_title`} placeholder={i18n.title} type="text" defaultValue={title}
                                        onChange={(event)=>this.updateValue(TITLE_FIELD, event.target.value)}/>
-                                <span className={"number-badge " + (titleIsLong ? "warning" : "ok")}>{title.length}</span>
+                                <span className={"number-badge " + (titleIsLong ? "warning" : "ok")}>{70 - title.length}</span>
                                 <div className="description">Keep less than 70 characters</div>
                             </div>
 
@@ -219,7 +219,7 @@ export default class RedaxtorSeo extends Component {
                                           defaultValue={description} rows="5"
                                           onChange={(event)=>this.updateValue(DESCRIPTION_FIELD, event.target.value)}/>
                                 <span
-                                    className={"number-badge " + ((description.length>160) ? "warning" : "ok")}>{description.length}</span>
+                                    className={"number-badge " + ((description.length>160) ? "warning" : "ok")}>{160 - description.length}</span>
                                 <div className="description">Keep less than 160 characters</div>
                             </div>
 
