@@ -36,20 +36,20 @@ export default class RedaxtorSeo extends Component {
      * That is a common public method that should activate component editor if it presents
      */
     activateEditor() {
-        if(this.props.editorActive && !this.state.sourceEditorActive) {
+        if (this.props.editorActive && !this.state.sourceEditorActive) {
             this.setEditorActive(true);
         }
     }
 
     deactivateEditor() {
-        if(this.props.editorActive && this.state.sourceEditorActive) {
+        if (this.props.editorActive && this.state.sourceEditorActive) {
             this.setEditorActive(false);
         }
     }
 
 
     setEditorActive(active) {
-        if(active != this.state.sourceEditorActive){
+        if (active != this.state.sourceEditorActive) {
             this.setState({sourceEditorActive: active});
             this.props.onEditorActive && this.props.onEditorActive(this.props.id, active);
         }
@@ -79,12 +79,12 @@ export default class RedaxtorSeo extends Component {
             [HEADER_HTML_FIELD]: nextProps.data[HEADER_HTML_FIELD] || "",
         });
 
-        if(nextProps.manualActivation) {
+        if (nextProps.manualActivation) {
             this.props.onManualActivation(this.props.id);
             this.activateEditor();
         }
 
-        if(nextProps.manualDeactivation) {
+        if (nextProps.manualDeactivation) {
             this.props.onManualDeactivation(this.props.id);
             this.deactivateEditor();
         }
@@ -125,11 +125,11 @@ export default class RedaxtorSeo extends Component {
                 }
             });
         this.props.savePiece && this.props.savePiece(this.props.id);
-       this.setEditorActive(false);
+        this.setEditorActive(false);
     }
 
     onClose() {
-       this.props.node ? this.setEditorActive(false) : (this.props.onClose && this.props.onClose());
+        this.props.node ? this.setEditorActive(false) : (this.props.onClose && this.props.onClose());
     }
 
     createEditor() {
@@ -164,8 +164,8 @@ export default class RedaxtorSeo extends Component {
      * handle closed event from the modal component
      * @param event
      */
-    handleCloseModal(event){
-        if(event.type == 'keydown' && event.keyCode === 27) {
+    handleCloseModal(event) {
+        if (event.type == 'keydown' && event.keyCode === 27) {
             this.modalNode.parentNode.dispatchEvent(new KeyboardEvent('keyDown', {key: 'Escape'}));
         }
     }
@@ -182,6 +182,10 @@ export default class RedaxtorSeo extends Component {
 
             const {title, description, keywords} = this.state;
             const descr = description.length > 156 ? (description.substring(0, 153) + "...") : description;
+
+            const descriptionIsLong = description.length > 156;
+            const titleIsLong = title.length > 70;
+
             const floatRight = {
                 float: "right",
                 paddingRight: "131px"
@@ -191,7 +195,8 @@ export default class RedaxtorSeo extends Component {
 
             modalDiv =
                 <Modal contentLabel="Edit SEO Information" isOpen={true} overlayClassName="r_modal-overlay r_visible"
-                       className="r_modal-content r_modal-content-seo" ref={(modal) => this.modalNode = (modal && modal.node)}
+                       className="r_modal-content r_modal-content-seo"
+                       ref={(modal) => this.modalNode = (modal && modal.node)}
                        onRequestClose={this.handleCloseModal.bind(this)}>
                     <div className="r_modal-title">
                         <div className="r_modal-close" onClick={this.onClose.bind(this)}>
@@ -204,13 +209,14 @@ export default class RedaxtorSeo extends Component {
                             <div className="item-form">
                                 <input id={`r_${id}_title`} placeholder={i18n.title} type="text" defaultValue={title}
                                        onChange={(event)=>this.updateValue(TITLE_FIELD, event.target.value)}/>
-                                <span className="number-badge">{title.length}</span>
+                                <span className={"number-badge " + titleIsLong ? "warning" : "ok"}>{title.length}</span>
                             </div>
                             <div className="item-form">
                                 <textarea id={`r_${id}_description`} placeholder={i18n.description} type="text"
                                           defaultValue={description} rows="5"
                                           onChange={(event)=>this.updateValue(DESCRIPTION_FIELD, event.target.value)}/>
-                                <span className="number-badge">{description.length}</span>
+                                <span
+                                    className={"number-badge " + descriptionIsLong ? "warning" : "ok"}>{description.length}</span>
                             </div>
                             <div className="item-form">
                                 <input id={`r_${id}_keywords`} placeholder={i18n.keywords} type="text"
