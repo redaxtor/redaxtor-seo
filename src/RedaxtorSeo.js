@@ -93,7 +93,7 @@ export default class RedaxtorSeo extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         if (this.props.data) {
             if (nextProps.data != this.props.data) {
-                this.props.setPieceMessage && this.props.setPieceMessage(this.props.id, 'Page refresh required', 'warning');
+                this.props.setPieceMessage && this.props.setPieceMessage(this.props.id, 'Page refresh is required', 'warning');
             }
         }
         return !shallowEqual(nextProps.data, this.props.data)
@@ -206,23 +206,29 @@ export default class RedaxtorSeo extends Component {
                     </div>
                     <div className="r_row">
                         <div className="r_col">
+
                             <div className="item-form">
                                 <input id={`r_${id}_title`} placeholder={i18n.title} type="text" defaultValue={title}
                                        onChange={(event)=>this.updateValue(TITLE_FIELD, event.target.value)}/>
-                                <span className={"number-badge " + titleIsLong ? "warning" : "ok"}>{title.length}</span>
+                                <span className={"number-badge " + (titleIsLong ? "warning" : "ok")}>{title.length}</span>
+                                <div className="description">Keep less than 70 characters</div>
                             </div>
+
                             <div className="item-form">
                                 <textarea id={`r_${id}_description`} placeholder={i18n.description} type="text"
                                           defaultValue={description} rows="5"
                                           onChange={(event)=>this.updateValue(DESCRIPTION_FIELD, event.target.value)}/>
                                 <span
-                                    className={"number-badge " + descriptionIsLong ? "warning" : "ok"}>{description.length}</span>
+                                    className={"number-badge " + (descriptionIsLong ? "warning" : "ok")}>{description.length}</span>
+                                <div className="description">Keep less than 156 characters</div>
                             </div>
+
                             <div className="item-form">
                                 <input id={`r_${id}_keywords`} placeholder={i18n.keywords} type="text"
                                        defaultValue={keywords}
                                        onChange={(event)=>this.updateValue(KEYWORDS_FIELD, event.target.value)}/>
                                 {false && <span className="number-badge">{keywords.length}</span>}
+                                <div className="description">Keep to 5 keywords or less</div>
                             </div>
                         </div>
                         <div className="r_col">
@@ -235,7 +241,6 @@ export default class RedaxtorSeo extends Component {
                     </div>
 
                     <div>
-                        <label>{i18n.google}</label>
                         <div className="google-preview-wrapper">
                             <div className="google-preview">
                                 <div className="google-header">{title}</div>
@@ -243,6 +248,7 @@ export default class RedaxtorSeo extends Component {
                                 <div className="google-description">{descr}</div>
                             </div>
                         </div>
+                        <label>{i18n.google}</label>
                     </div>
 
                     <div className="r_modal-actions-bar">
