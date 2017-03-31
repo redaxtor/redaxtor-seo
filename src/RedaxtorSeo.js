@@ -194,7 +194,7 @@ export default class RedaxtorSeo extends Component {
             const html = html_beautify(this.state.html, this.beautifyOptions);
 
             modalDiv =
-                <Modal contentLabel="Edit SEO Information" isOpen={true} overlayClassName="r_modal-overlay r_visible"
+                <Modal contentLabel="Edit SEO Information" isOpen={true} overlayClassName="r_modal-overlay r_reset r_visible"
                        className="r_modal-content r_modal-content-seo"
                        ref={(modal) => this.modalNode = (modal && modal.node)}
                        onRequestClose={this.handleCloseModal.bind(this)}>
