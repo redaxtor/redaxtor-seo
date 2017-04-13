@@ -276,3 +276,6 @@ export default class RedaxtorSeo extends Component {
 RedaxtorSeo.__renderType = "BEFORE";
 RedaxtorSeo.__editLabel = i18n.__floatingEditLabel;
 RedaxtorSeo.__name = i18n.__checkboxName;
+RedaxtorSeo.applyEditor = function(node, data){
+
+};
