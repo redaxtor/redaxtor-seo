@@ -277,5 +277,5 @@ RedaxtorSeo.__renderType = "BEFORE";
 RedaxtorSeo.__editLabel = i18n.__floatingEditLabel;
 RedaxtorSeo.__name = i18n.__checkboxName;
 RedaxtorSeo.applyEditor = function(node, data){
-
+    throw new Error("SEO editor data can't be applied to DOM node, update that data on server side");
 };
