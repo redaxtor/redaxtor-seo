@@ -1,3 +1,5 @@
+# DEPRECATED This project is deprecated in favor of [plugin-seo](https://github.com/writeaway/writeaway/tree/master/packages/plugin-seo)
+
 # Redaxtor-codemirror
 Redaxtor-codemirror is a source-editor plugin for Redaxtor library
 
